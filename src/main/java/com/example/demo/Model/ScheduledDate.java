@@ -1,6 +1,8 @@
 package com.example.demo.Model;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +25,19 @@ public class ScheduledDate {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false)
+    @JsonBackReference
     private SchedulingBooking schedulingBooking;
+
+    private String slotId;
+
+    public String getSlotId() {
+        return slotId;
+    }
+
+    public void setSlotId(String slotId) {
+        this.slotId = slotId;
+    }
+
 
 
     public ScheduledDate(){
@@ -72,8 +86,6 @@ public class ScheduledDate {
     public void setSchedulingBooking(SchedulingBooking schedulingBooking) {
         this.schedulingBooking = schedulingBooking;
     }
-
-
 
 
 }

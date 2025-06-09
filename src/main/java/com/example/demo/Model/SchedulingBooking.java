@@ -3,21 +3,12 @@ package com.example.demo.Model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.ElementCollection;
+
+import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.annotation.Generated;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
 
 @Entity
 public class SchedulingBooking {
@@ -82,7 +73,9 @@ public class SchedulingBooking {
 
     private int carRentalUserId;
 
-    @OneToMany(mappedBy = "schedulingBooking", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "schedulingBooking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<ScheduledDate> scheduledDates = new ArrayList<>();
 
 
@@ -354,6 +347,4 @@ public class SchedulingBooking {
                 + ", carRentaluser=" + carRentaluser + ", carRentalUserId=" + carRentalUserId + ", scheduledDates="
                 + scheduledDates + "]";
     }
-
-
 }

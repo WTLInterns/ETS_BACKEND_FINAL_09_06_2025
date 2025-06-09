@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.demo.DTO.DriverSlotsResponseDTO;
 import com.example.demo.DTO.MultiDateAssignmentResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -154,6 +155,25 @@ public class SchedulingBookingController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error while updating status: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/driver/{driverId}/slots")
+    public ResponseEntity<DriverSlotsResponseDTO> getDriverSlots(@PathVariable int driverId) {
+        try {
+            DriverSlotsResponseDTO response = scheduleBookingService.getDriverSlots(driverId);
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("not found")) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.badRequest().body(new DriverSlotsResponseDTO(new ArrayList<>()));
+
+        } catch (Exception e) {
+//            logger.error("Error in getDriverSlots: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new DriverSlotsResponseDTO(new ArrayList<>()));
         }
     }
 
@@ -336,9 +356,12 @@ public class SchedulingBookingController {
         booking.setScheduledDates(scheduledDateList);
 
         String userServiceUrl = "http://localhost:8080/auth/getCarRentalUserById/" + userId;
+        System.out.println("Calling URL: " + userServiceUrl);
         CarRentalUser user = restTemplate.getForObject(userServiceUrl, CarRentalUser.class);
         System.out.println("USER"+user);
         if (user == null) {
+            System.out.println("RestTemplate returned null - service might be down or user not found");
+
             response.put("status", "error");
             response.put("message", "User not found");
             return response;
@@ -453,21 +476,4 @@ public class SchedulingBookingController {
 //     public SchedulingBooking assignVendorDriver(@PathVariable int vendorDriverId, @PathVariable int bookingId){
 // return this.scheduleBookingService.assignDriverBooking(bookingId, vendorDriverId);
 //     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
