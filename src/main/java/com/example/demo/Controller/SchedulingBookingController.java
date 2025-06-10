@@ -355,7 +355,7 @@ public class SchedulingBookingController {
         }
         booking.setScheduledDates(scheduledDateList);
 
-        String userServiceUrl = "http://localhost:8080/auth/getCarRentalUserById/" + userId;
+        String userServiceUrl = "https://api.worldtriplink.com/auth/getCarRentalUserById/" + userId;
         System.out.println("Calling URL: " + userServiceUrl);
         CarRentalUser user = restTemplate.getForObject(userServiceUrl, CarRentalUser.class);
         System.out.println("USER"+user);

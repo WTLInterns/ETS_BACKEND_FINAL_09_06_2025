@@ -181,7 +181,7 @@ public class ScheduleBookingService {
         }
 
         // Verify driver exists
-        String driverUrl = "http://localhost:8080/vendorDriver/" + vendorDriverId;
+        String driverUrl = "https://api.worldtriplink.com/vendorDriver/" + vendorDriverId;
         try {
             restTemplate.getForObject(driverUrl, VendorDriver.class);
         } catch (HttpClientErrorException.NotFound e) {
@@ -665,7 +665,7 @@ public class ScheduleBookingService {
     // UPDATED METHOD: Get driver slots with new logic
     public DriverSlotsResponseDTO getDriverSlots(int vendorDriverId) {
         try {
-            String driverUrl = "http://localhost:8080/vendorDriver/" + vendorDriverId;
+            String driverUrl = "https://api.worldtriplink.com/vendorDriver/" + vendorDriverId;
             try {
                 restTemplate.getForObject(driverUrl, VendorDriver.class);
             } catch (HttpClientErrorException.NotFound e) {
@@ -842,7 +842,7 @@ public class ScheduleBookingService {
             String shiftTime,
             List<LocalDate> dates
     ) {
-        String userServiceUrl = "http://localhost:8080/auth/getCarRentalUserById/" + userId;
+        String userServiceUrl = "https://api.worldtriplink.com/auth/getCarRentalUserById/" + userId;
         CarRentalUser user = restTemplate.getForObject(userServiceUrl, CarRentalUser.class);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
@@ -870,7 +870,7 @@ public class ScheduleBookingService {
         SchedulingBooking booking = scheduleBookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + bookingId));
 
-        String vendorUrl = "http://localhost:8080/vendors/" + vendorId;
+        String vendorUrl = "https://api.worldtriplink.com/vendors/" + vendorId;
         try {
             restTemplate.getForObject(vendorUrl, Vendor.class);
         } catch (HttpClientErrorException.NotFound e) {
@@ -885,9 +885,9 @@ public class ScheduleBookingService {
         SchedulingBooking booking = scheduleBookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
-        String vendorServiceUrl = "http://localhost:8080/vendors/" + booking.getVendorId();
-        String vendorDriverServiceUrl = "http://localhost:8080/vendorDriver/" + booking.getVendorDriverId();
-        String userServiceUrl = "http://localhost:8080/auth/getCarRentalUserById/" + booking.getUser().getId();
+        String vendorServiceUrl = "https://api.worldtriplink.com/vendors/" + booking.getVendorId();
+        String vendorDriverServiceUrl = "https://api.worldtriplink.com/vendorDriver/" + booking.getVendorDriverId();
+        String userServiceUrl = "https://api.worldtriplink.com/auth/getCarRentalUserById/" + booking.getUser().getId();
 
         Vendor vendor = restTemplate.getForObject(vendorServiceUrl, Vendor.class);
         VendorDriver vendorDriver = restTemplate.getForObject(vendorDriverServiceUrl, VendorDriver.class);
@@ -958,7 +958,7 @@ public class ScheduleBookingService {
         dtoS.setShiftTime(schedulingBooking.getShiftTime());
         dtoS.setBookingType(schedulingBooking.getBookingType());
         try {
-            String vendorServiceUrl = "http://localhost:8080/vendors/" + schedulingBooking.getVendorId();
+            String vendorServiceUrl = "https://api.worldtriplink.com/vendors/" + schedulingBooking.getVendorId();
             Vendor vendor = restTemplate.getForObject(vendorServiceUrl, Vendor.class);
             if (vendor != null) {
                 VendorDTO vendorDTO = new VendorDTO();
@@ -976,7 +976,7 @@ public class ScheduleBookingService {
         }
 
         try {
-            String vendorDriverServiceUrl = "http://localhost:8080/vendorDriver/" + schedulingBooking.getVendorDriverId();
+            String vendorDriverServiceUrl = "https://api.worldtriplink.com/vendorDriver/" + schedulingBooking.getVendorDriverId();
             VendorDriver vendorDriver = restTemplate.getForObject(vendorDriverServiceUrl, VendorDriver.class);
             if (vendorDriver != null) {
                 VendorDriverDTO driverDTO = new VendorDriverDTO();
@@ -992,7 +992,7 @@ public class ScheduleBookingService {
         }
 
         try {
-            String userServiceUrl = "http://localhost:8080/auth/getCarRentalUserById/" + schedulingBooking.getUser().getId();
+            String userServiceUrl = "https://api.worldtriplink.com/auth/getCarRentalUserById/" + schedulingBooking.getUser().getId();
             CarRentalUser user = restTemplate.getForObject(userServiceUrl, CarRentalUser.class);
             if (user != null) {
                 UserDTO userDTO = new UserDTO();
@@ -1035,7 +1035,7 @@ public class ScheduleBookingService {
             schedulingBookingDTO.setBookingType(schedulingBooking.getBookingType());
 
             try {
-                String vendorServiceUrl = "http://localhost:8080/vendors/" + schedulingBooking.getVendorId();
+                String vendorServiceUrl = "https://api.worldtriplink.com/vendors/" + schedulingBooking.getVendorId();
                 Vendor vendor = restTemplate.getForObject(vendorServiceUrl, Vendor.class);
                 if (vendor != null) {
                     VendorDTO vendorDTO = new VendorDTO();
@@ -1053,7 +1053,7 @@ public class ScheduleBookingService {
             }
 
             try {
-                String vendorDriverServiceUrl = "http://localhost:8080/vendorDriver/" + schedulingBooking.getVendorDriverId();
+                String vendorDriverServiceUrl = "https://api.worldtriplink.com/vendorDriver/" + schedulingBooking.getVendorDriverId();
                 VendorDriver vendorDriver = restTemplate.getForObject(vendorDriverServiceUrl, VendorDriver.class);
                 if (vendorDriver != null) {
                     VendorDriverDTO driverDTO = new VendorDriverDTO();
@@ -1069,7 +1069,7 @@ public class ScheduleBookingService {
             }
 
             try {
-                String userServiceUrl = "http://localhost:8080/auth/getCarRentalUserById/" + userId;
+                String userServiceUrl = "https://api.worldtriplink.com/auth/getCarRentalUserById/" + userId;
                 CarRentalUser user = restTemplate.getForObject(userServiceUrl, CarRentalUser.class);
                 if (user != null) {
                     UserDTO userDTO = new UserDTO();
@@ -1116,7 +1116,7 @@ public class ScheduleBookingService {
             schedulingBookingDTO.setBookingType(schedulingBooking.getBookingType());
 
             try {
-                String vendorServiceUrl = "http://localhost:8080/vendors/" + schedulingBooking.getVendorId();
+                String vendorServiceUrl = "https://api.worldtriplink.com/vendors/" + schedulingBooking.getVendorId();
                 Vendor vendor = restTemplate.getForObject(vendorServiceUrl, Vendor.class);
                 if (vendor != null) {
                     VendorDTO vendorDTO = new VendorDTO();
@@ -1134,7 +1134,7 @@ public class ScheduleBookingService {
             }
 
             try {
-                String vendorDriverServiceUrl = "http://localhost:8080/vendorDriver/" + schedulingBooking.getVendorDriverId();
+                String vendorDriverServiceUrl = "https://api.worldtriplink.com/vendorDriver/" + schedulingBooking.getVendorDriverId();
                 VendorDriver vendorDriver = restTemplate.getForObject(vendorDriverServiceUrl, VendorDriver.class);
                 if (vendorDriver != null) {
                     VendorDriverDTO driverDTO = new VendorDriverDTO();
@@ -1150,7 +1150,7 @@ public class ScheduleBookingService {
             }
 
             try {
-                String userServiceUrl = "http://localhost:8080/auth/getCarRentalUserById/" + schedulingBooking.getUser().getId();
+                String userServiceUrl = "https://api.worldtriplink.com/auth/getCarRentalUserById/" + schedulingBooking.getUser().getId();
                 CarRentalUser user = restTemplate.getForObject(userServiceUrl, CarRentalUser.class);
                 if (user != null) {
                     UserDTO userDTO = new UserDTO();
